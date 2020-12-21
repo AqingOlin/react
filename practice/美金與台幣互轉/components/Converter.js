@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 
 function Converter(props) {
   //用於輸入值使用的狀態
-  const [twd, setTwd] = useState('')
-  const [usd, setUsd] = useState('')
+  const [twd, setTwd] = useState('0')
+  const [usd, setUsd] = useState('0')
+
+  const usd2Twd = (usd) => (28.53 * usd).toFixed(0)
+  const twd2Usd = (twd) => (twd / 28.53).toFixed(2)
 
   return (
     <>
@@ -14,7 +17,10 @@ function Converter(props) {
         type="text"
         value={twd}
         onChange={(event) => {
-          setTwd(event.target.value)
+          const newValue = +event.target.value
+          //網頁上輸入為字串，要先轉數字類型
+          setTwd(newValue)
+          setUsd(twd2Usd(newValue))
         }}
       />
       <hr />
@@ -23,7 +29,12 @@ function Converter(props) {
         type="text"
         value={usd}
         onChange={(event) => {
-          setUsd(event.target.value)
+          //先得到將要變動的值。網頁上輸入為字串，要先轉數字類型
+          const newValue = +event.target.value
+          //設定美金的值(文字輸入框)
+          setUsd(newValue)
+          //設定轉換後的新台幣
+          setTwd(usd2Twd(newValue))
         }}
       />
     </>
